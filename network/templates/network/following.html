@@ -1,0 +1,45 @@
+{% extends "network/layout.html" %} {% block body %}
+<div class="container-center">
+{% for post in page_obj %}
+    
+<div class="newpost border mt-2" id="post-{{ post.id }}">
+    <h6><a href="{% url 'user_profile' id=post.user.id %}">{{post.user}}</a></h6>
+    <p id="content-{{ post.id }}">{{post.content}}</p>
+    <p style="color:#9F9F9F;">{{post.date}}</p>
+    <p id="likes-{{post.id}}">	&#128154 {{post.likes}}</p>
+    {% if user.is_authenticated %}
+    {% if post.id in likedPostsId %}
+    
+      {% csrf_token %}
+      <button id="unlike-button-{{post.id}}" onclick="unLike({{post.id}})" class="btn btn-link">UnLike</button>
+ 
+    {% else %}
+  
+      {% csrf_token %}
+      <button id="like-button-{{post.id}}" onclick="like({{post.id}})" class="btn btn-link">Like</button>
+
+    {% endif %}
+    {% endif %}
+</div>
+
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="m-2 btn btn-info" href="?page=1">&laquo; First</a>
+            <a class="m-2 btn btn-info" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="m-2 btn btn-info" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="m-2 btn btn-info" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock %}

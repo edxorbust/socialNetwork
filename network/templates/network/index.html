@@ -1,0 +1,75 @@
+{% extends "network/layout.html" %} {% block body %}
+<div class="container-center">
+  <h3>All Posts</h3>
+  {% if user.is_authenticated %}
+  <div class="newpost border">
+    <h5>New Post</h5>
+    <div class="mt-3 mb-5">
+    <form class="form-newpost" action="{% url 'new_post' %}" method="POST">
+      {% csrf_token %}
+      <textarea
+        class="form-control h-100"
+        name="npost"
+        maxlength="140"
+      ></textarea>
+      <input type="submit" value="Post" class="btn btn-primary mt-2" />
+    </form>
+  </div>
+  </div>
+  {% endif %}
+  {% for post in posts %}
+  <div class="newpost border mt-2" id="post-{{ post.id }}">
+    <h6><a href="{% url 'user_profile' id=post.user.id %}">{{post.user}}</a></h6>
+    {% if userIn == post.user %}
+    <button class="btn btn-link" id="editbutton-{{post.id}}" onclick="editPost({{ post.id }}, '{{ post.content }}')" >Edit</button>
+    {% endif %}
+    <div id="div-edit-{{post.id}}">
+      <form class="form-newpost edit-post-form" action="{% url 'edit_post' %}" id="edit-{{post.id}}" method="POST">
+      {% csrf_token %}
+        <input type="submit" value="Save" class="my-1" />
+        <textarea
+        class="form-control h-100"
+        name="npost"
+        maxlength="140"
+        id="contentedit-{{post.id}}"
+        ></textarea>
+        <input name="id-post" type="hidden" value="{{post.id}}"/>
+      </form>
+    </div>
+    <p id="content-{{ post.id }}">{{post.content}}</p>
+    <p style="color:#9F9F9F;">{{post.date}}</p>
+    <p id="likes-{{post.id}}">	&#128154 {{post.likes}}</p>
+    {% if user.is_authenticated %}
+    {% if post.id in likedPostsId %}
+    
+      {% csrf_token %}
+      <button id="unlike-button-{{post.id}}" onclick="unLike({{post.id}})" class="btn btn-link">UnLike</button>
+ 
+    {% else %}
+  
+      {% csrf_token %}
+      <button id="like-button-{{post.id}}" onclick="like({{post.id}})" class="btn btn-link">Like</button>
+
+    {% endif %}
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a class="m-2 btn btn-info" href="?page=1">&laquo; First</a>
+            <a class="m-2 btn btn-info" href="?page={{ posts.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+        </span>
+
+        {% if posts.has_next %}
+            <a class="m-2 btn btn-info" href="?page={{ posts.next_page_number }}">Next</a>
+            <a class="m-2 btn btn-info" href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock %}

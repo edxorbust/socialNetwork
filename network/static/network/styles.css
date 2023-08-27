@@ -1,0 +1,23 @@
+.newpost{
+    
+    width: 100%;
+    padding: 20px;
+    height: auto;
+
+    
+}
+
+.container-center{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80vw;
+}
+
+.form-newpost{
+    height: 80px;
+}
+
+.edit-post-form{
+    margin: 0px;
+}
+
