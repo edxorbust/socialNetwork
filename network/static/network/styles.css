@@ -86,6 +86,10 @@
     padding: 10px 50px;
 }
 
+.navbar-nav{
+    flex-direction: row;
+}
+
 @media (max-width: 768px){
 
     .navbar-nav{
