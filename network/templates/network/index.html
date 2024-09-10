@@ -1,8 +1,8 @@
 {% extends "network/layout.html" %} {% block body %}
 <div class="container-center">
-  <h3>All Posts</h3>
+  <h3 class="francois-one-regular">All Posts</h3>
   {% if user.is_authenticated %}
-  <div class="newpost border">
+  <div class="newpost border quicksand">
     <h5>New Post</h5>
     <div class="mt-3 mb-5">
     <form class="form-newpost" action="{% url 'new_post' %}" method="POST">
@@ -18,7 +18,7 @@
   </div>
   {% endif %}
   {% for post in posts %}
-  <div class="newpost border mt-2" id="post-{{ post.id }}">
+  <div class="newpost border mt-2 quicksand" id="post-{{ post.id }}">
     <h6><a href="{% url 'user_profile' id=post.user.id %}">{{post.user}}</a></h6>
     {% if userIn == post.user %}
     <button class="btn btn-link" id="editbutton-{{post.id}}" onclick="editPost({{ post.id }}, '{{ post.content }}')" >Edit</button>
@@ -38,7 +38,7 @@
     </div>
     <p id="content-{{ post.id }}">{{post.content}}</p>
     <p style="color:#9F9F9F;">{{post.date}}</p>
-    <p id="likes-{{post.id}}">	&#128154 {{post.likes}}</p>
+    <p id="likes-{{post.id}}">	&hearts; {{post.likes}}</p>
     {% if user.is_authenticated %}
     {% if post.id in likedPostsId %}
     
@@ -54,7 +54,7 @@
     {% endif %}
   </div>
   {% endfor %}
-  <div class="pagination">
+  <div class="pagination quicksand">
     <span class="step-links">
         {% if posts.has_previous %}
             <a class="m-2 btn btn-info" href="?page=1">&laquo; First</a>

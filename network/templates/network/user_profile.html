@@ -1,8 +1,11 @@
 {% extends "network/layout.html" %} {% block body %}
 <div class="container-center">
-    <h3>{{ userProf }}</h3>
-    <h5>Followers: {{ followers }}</h5>
-    <h5>Follows: {{ follows }}</h5>
+    <h3 class="francois-one-regular">{{ userProf }}</h3>
+    <div style="margin-top: 15px;">
+      <a class="quicksand">Followers: {{ followers }}</a>
+      <br>
+      <a class="quicksand">Follows: {{ follows }}</a>
+    </div>
   {% if alreadyFollow %}
   <form method="POST" action="{% url 'unfollow' id=profile.id %}">
     {% csrf_token %}
@@ -15,7 +18,7 @@
   </form>
   {% endif %}
   {% for post in posts %}
-  <div class="newpost border mt-2" id="post-{{ post.id }}">
+  <div class="newpost border mt-4" id="post-{{ post.id }}">
     <h6>{{post.user}}</h6>
     {% if isAuthor %}
     <button class="btn btn-link" id="editbutton-{{post.id}}" onclick="editPost({{ post.id }}, '{{ post.content }}')" >Edit</button>
@@ -35,7 +38,7 @@
     </div>
     <p id="content-{{ post.id }}">{{post.content}}</p>
     <p style="color:#9F9F9F;">{{post.date}}</p>
-    <p id="likes-{{post.id}}">	&#128154 {{post.likes}}</p>
+    <p id="likes-{{post.id}}">	&hearts; {{post.likes}}</p>
     {% if user.is_authenticated %}
     {% if post.id in likedPostsId %}
     
@@ -51,7 +54,7 @@
     {% endif %}
   </div>
   {% endfor %}
-  <div class="pagination">
+  <div class="pagination quicksand">
     <span class="step-links">
         {% if posts.has_previous %}
             <a class="m-2 btn btn-info" href="?page=1">&laquo; First</a>
